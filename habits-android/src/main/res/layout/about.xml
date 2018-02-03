@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+  ~
+  ~ This file is part of 7-Habit Tracker.
+  ~
+  ~ 7-Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ 7-Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:background="?windowBackgroundColor"
+            android:fillViewport="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:popupTheme="?toolbarPopupTheme"
+        style="@style/Toolbar"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            style="@style/CardList">
+
+            <LinearLayout
+                style="@style/Card"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/intro_icon_1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_margin="6dp"
+                    android:textColor="?aboutScreenColor"
+                    android:text="@string/app_name"/>
+
+                <TextView
+                    android:id="@+id/tvVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Card"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/CardHeader"
+                    android:text="@string/links"
+                    android:textColor="?aboutScreenColor"/>
+
+                <TextView
+                    android:id="@+id/tvRate"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/pref_rate_this_app"/>
+                <!--
+                <TextView
+                    android:id="@+id/tvFeedback"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/pref_send_feedback"/>
+
+                <TextView
+                    android:id="@+id/tvTranslate"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/help_translate"/>
+                -->
+
+                <TextView
+                    android:id="@+id/tvSource"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/pref_view_source_code"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/toolbarShadow"
+        style="@style/ToolbarShadow"
+        android:layout_below="@id/toolbar"/>
+
+</RelativeLayout>

@@ -1,0 +1,101 @@
+/*
+ * Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+ *
+ * This file is part of 7-Habit Tracker.
+ *
+ * 7-Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * 7-Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.herman.habits.receivers;
+
+import android.content.*;
+import android.support.annotation.*;
+import android.util.*;
+
+import com.herman.habits.*;
+import com.herman.habits.core.models.*;
+import com.herman.habits.core.utils.*;
+
+import static android.content.ContentUris.*;
+
+/**
+ * The Android BroadcastReceiver for 7-Habit Tracker.
+ * <p>
+ * All broadcast messages are received and processed by this class.
+ */
+public class ReminderReceiver extends BroadcastReceiver
+{
+    public static final String ACTION_DISMISS_REMINDER =
+            "com.herman.habits.ACTION_DISMISS_REMINDER";
+
+    public static final String ACTION_SHOW_REMINDER =
+            "com.herman.habits.ACTION_SHOW_REMINDER";
+
+    public static final String ACTION_SNOOZE_REMINDER =
+            "com.herman.habits.ACTION_SNOOZE_REMINDER";
+
+    private static final String TAG = "ReminderReceiver";
+
+    @Override
+    public void onReceive(@Nullable final Context context, @Nullable Intent intent)
+    {
+        if (context == null || intent == null) return;
+        if (intent.getAction() == null) return;
+
+        HabitsApplication app = (HabitsApplication) context.getApplicationContext();
+        HabitsApplicationComponent appComponent = app.getComponent();
+        HabitList habits = appComponent.getHabitList();
+        ReminderController reminderController = appComponent.getReminderController();
+
+        Log.i(TAG, String.format("Received intent: %s", intent.toString()));
+
+        Habit habit = null;
+        long today = DateUtils.getStartOfToday();
+
+        if (intent.getData() != null)
+            habit = habits.getById(parseId(intent.getData()));
+        final Long timestamp = intent.getLongExtra("timestamp", today);
+        final Long reminderTime = intent.getLongExtra("reminderTime", today);
+
+        try
+        {
+            switch (intent.getAction())
+            {
+                case ACTION_SHOW_REMINDER:
+                    if (habit == null) return;
+                    reminderController.onShowReminder(habit,
+                            new Timestamp(timestamp), reminderTime);
+                    break;
+
+                case ACTION_DISMISS_REMINDER:
+                    if (habit == null) return;
+                    reminderController.onDismiss(habit);
+                    break;
+
+                case ACTION_SNOOZE_REMINDER:
+                    if (habit == null) return;
+                    reminderController.onSnoozePressed(habit, context);
+                    break;
+
+                case Intent.ACTION_BOOT_COMPLETED:
+                    reminderController.onBootCompleted();
+                    break;
+            }
+        }
+        catch (RuntimeException e)
+        {
+            Log.e(TAG, "could not process intent", e);
+        }
+    }
+}
