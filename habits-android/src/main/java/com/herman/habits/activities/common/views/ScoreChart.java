@@ -405,14 +405,24 @@ public class ScoreChart extends ScrollableChart
         primaryColor = Color.BLACK;
         textColor = res.getColor(R.attr.mediumContrastTextColor);
         gridColor = res.getColor(R.attr.lowContrastTextColor);
-        backgroundColor = res.getColor(R.attr.cardBackgroundColor);
+        backgroundColor = res.getColor(R.attr.onwCardBackgroundColor);
     }
 
     private void initDateFormats()
     {
-        dfYear = AndroidDateFormats.fromSkeleton("yyyy");
-        dfMonth = AndroidDateFormats.fromSkeleton("MMM");
-        dfDay = AndroidDateFormats.fromSkeleton("d");
+        if (isInEditMode())
+        {
+            dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
+            dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+            dfDay = new SimpleDateFormat("d", Locale.getDefault());
+
+        }
+        else
+        {
+            dfMonth = AndroidDateFormats.fromSkeleton("MMM");
+            dfYear = AndroidDateFormats.fromSkeleton("yyyy");
+            dfDay = AndroidDateFormats.fromSkeleton("d");
+        }
     }
 
     private void initPaints()

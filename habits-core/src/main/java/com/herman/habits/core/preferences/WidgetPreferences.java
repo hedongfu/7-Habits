@@ -22,40 +22,33 @@ package com.herman.habits.core.preferences;
 import com.herman.habits.core.*;
 import com.herman.habits.core.models.*;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
 @AppScope
-public class WidgetPreferences
-{
+public class WidgetPreferences {
     private Preferences.Storage storage;
 
     @Inject
-    public WidgetPreferences(Preferences.Storage storage)
-    {
+    public WidgetPreferences(Preferences.Storage storage) {
         this.storage = storage;
     }
 
-    public void addWidget(int widgetId, long habitId)
-    {
-        storage.putLong(getHabitIdKey(widgetId), habitId);
+    public void addWidget(int widgetId, long habitIds[]) {
+        storage.putLongArray(getHabitIdKey(widgetId), habitIds);
     }
 
-    public long getHabitIdFromWidgetId(int widgetId)
-    {
-        Long habitId = storage.getLong(getHabitIdKey(widgetId), -1);
-        if (habitId < 0) throw new HabitNotFoundException();
-
-        return habitId;
+    public long[] getHabitIdsFromWidgetId(int widgetId) {
+        long habitIds[] = storage.getLongArray(getHabitIdKey(widgetId));
+        if (habitIds.length == 0) throw new HabitNotFoundException();
+        return habitIds;
     }
 
-    public void removeWidget(int id)
-    {
+    public void removeWidget(int id) {
         String habitIdKey = getHabitIdKey(id);
         storage.remove(habitIdKey);
     }
 
-    private String getHabitIdKey(int id)
-    {
+    private String getHabitIdKey(int id) {
         return String.format("widget-%06d-habit", id);
     }
 }

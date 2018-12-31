@@ -32,10 +32,13 @@ import java.util.*;
 
 import javax.inject.*;
 
+
 @AppScope
 public class NotificationTray
     implements CommandRunner.Listener, Preferences.Listener
 {
+    public static final String REMINDERS_CHANNEL_ID = "REMINDERS";
+
     @NonNull
     private final TaskRunner taskRunner;
 

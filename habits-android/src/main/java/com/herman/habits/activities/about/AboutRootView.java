@@ -67,6 +67,12 @@ public class AboutRootView extends BaseRootView
         return res.getColor(R.attr.aboutScreenColor);
     }
 
+    @OnClick(R.id.tvFeedback)
+    public void onClickFeedback()
+    {
+        behavior.onSendFeedback();
+    }
+
     @OnClick(R.id.tvVersion)
     public void onClickIcon()
     {
@@ -83,6 +89,12 @@ public class AboutRootView extends BaseRootView
     public void onClickSource()
     {
         behavior.onViewSourceCode();
+    }
+
+    @OnClick(R.id.tvTranslate)
+    public void onClickTranslate()
+    {
+        behavior.onTranslateApp();
     }
 
     @Override

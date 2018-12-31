@@ -30,20 +30,12 @@ import android.support.v7.preference.*;
 import com.herman.habits.*;
 import com.herman.habits.R;
 import com.herman.habits.core.preferences.*;
+import com.herman.habits.core.ui.*;
 import com.herman.habits.notifications.*;
 
-import static android.media.RingtoneManager.ACTION_RINGTONE_PICKER;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_TYPE;
-import static android.media.RingtoneManager.TYPE_NOTIFICATION;
-import static com.herman.habits.activities.habits.list.ListHabitsScreenKt.RESULT_BUG_REPORT;
-import static com.herman.habits.activities.habits.list.ListHabitsScreenKt.RESULT_EXPORT_CSV;
-import static com.herman.habits.activities.habits.list.ListHabitsScreenKt.RESULT_EXPORT_DB;
-import static com.herman.habits.activities.habits.list.ListHabitsScreenKt.RESULT_IMPORT_DATA;
-import static com.herman.habits.activities.habits.list.ListHabitsScreenKt.RESULT_REPAIR_DB;
+import static android.media.RingtoneManager.*;
+import static android.os.Build.VERSION.SDK_INT;
+import static com.herman.habits.activities.habits.list.ListHabitsScreenKt.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -114,6 +106,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
             showRingtonePicker();
             return true;
         }
+        else if (key.equals("reminderCustomize"))
+        {
+            if (SDK_INT < Build.VERSION_CODES.O) return true;
+            AndroidNotificationTray.Companion.createAndroidNotificationChannel(getContext());
+            Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onPreferenceTreeClick(preference);
     }
@@ -135,7 +137,14 @@ public class SettingsFragment extends PreferenceFragmentCompat
             devCategory.setVisible(false);
         }
 
-        updateRingtoneDescription();
+        if (SDK_INT < Build.VERSION_CODES.O)
+            findPreference("reminderCustomize").setVisible(false);
+        else
+        {
+            findPreference("reminderSound").setVisible(false);
+            findPreference("pref_snooze_interval").setVisible(false);
+        }
+
         updateSync();
     }
 
