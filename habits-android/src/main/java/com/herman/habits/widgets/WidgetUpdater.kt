@@ -23,6 +23,7 @@ import android.appwidget.*
 import android.content.*
 import com.herman.androidbase.*
 import com.herman.habits.core.commands.*
+import com.herman.habits.core.models.HabitNotFoundException
 import com.herman.habits.core.preferences.WidgetPreferences
 import com.herman.habits.core.tasks.*
 import javax.inject.*
@@ -73,18 +74,21 @@ class WidgetUpdater
     private fun updateWidgets(modifiedHabitId: Long?, providerClass: Class<*>) {
         val widgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(
                 ComponentName(context, providerClass))
-
-        val modifiedWidgetIds = when (modifiedHabitId) {
-            null -> widgetIds.toList()
-            else -> widgetIds.filter { w ->
-                widgetPrefs.getHabitIdsFromWidgetId(w).contains(modifiedHabitId)
+        try {
+            val modifiedWidgetIds = when (modifiedHabitId) {
+                null -> widgetIds.toList()
+                else -> widgetIds.filter { w ->
+                    widgetPrefs.getHabitIdsFromWidgetId(w).contains(modifiedHabitId)
+                }
             }
-        }
 
-        context.sendBroadcast(Intent(context, providerClass).apply {
-            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, modifiedWidgetIds.toIntArray())
-        })
+            context.sendBroadcast(Intent(context, providerClass).apply {
+                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, modifiedWidgetIds.toIntArray())
+            })
+        } catch (e: HabitNotFoundException) {
+            e.printStackTrace();
+        }
     }
 
     fun updateWidgets() {

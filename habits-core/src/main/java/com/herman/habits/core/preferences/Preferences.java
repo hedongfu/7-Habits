@@ -23,7 +23,7 @@ import android.support.annotation.*;
 
 import com.herman.habits.core.models.*;
 import com.herman.habits.core.ui.*;
-import com.herman.habits.core.utils.StringUtils;
+import com.herman.habits.core.utils.*;
 
 import java.util.*;
 
