@@ -1,4 +1,4 @@
-# habits
+# 7-Habits
 Habit Tracker helps you create and maintain good habits, allowing you to achieve your long-term goals. Detailed graphs and statistics show you how your habits improved over time. The app is completely ad-free and open source.
 
 Simple, beautiful and modern interface
