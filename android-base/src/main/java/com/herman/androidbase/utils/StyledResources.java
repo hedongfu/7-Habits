@@ -90,7 +90,9 @@ public class StyledResources
     public int[] getPalette()
     {
         int resourceId = getResource(R.attr.palette);
-        if (resourceId < 0) throw new RuntimeException("resource not found");
+        //if (resourceId < 0) throw new RuntimeException("resource not found");
+        if (resourceId < 0)
+            return (new int[0]);
 
         return context.getResources().getIntArray(resourceId);
     }

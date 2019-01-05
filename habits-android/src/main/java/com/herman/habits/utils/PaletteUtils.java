@@ -60,6 +60,7 @@ public class PaletteUtils
                 String.format("Invalid color: %d. Returning default.",
                     paletteColor));
             paletteColor = 0;
+            return Color.LTGRAY;
         }
 
         return palette[paletteColor];
