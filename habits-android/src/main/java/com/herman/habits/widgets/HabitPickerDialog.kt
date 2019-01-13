@@ -23,21 +23,20 @@ import android.app.*
 import android.appwidget.AppWidgetManager.*
 import android.content.*
 import android.os.*
+import android.view.*
 import android.widget.*
-import android.widget.AbsListView.*
 import com.herman.habits.*
 import com.herman.habits.core.models.*
 import com.herman.habits.core.preferences.*
 import java.util.*
 
-class HabitPickerDialog : Activity() {
+class HabitPickerDialog : Activity(), AdapterView.OnItemClickListener {
 
     private var widgetId = 0
     private lateinit var habitList: HabitList
     private lateinit var preferences: WidgetPreferences
     private lateinit var habitIds: ArrayList<Long>
     private lateinit var widgetUpdater: WidgetUpdater
-    private lateinit var listView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,41 +44,34 @@ class HabitPickerDialog : Activity() {
         habitList = component.habitList
         preferences = component.widgetPreferences
         widgetUpdater = component.widgetUpdater
-        widgetId = intent.extras?.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID) ?: 0
+        widgetId = intent.extras?.getInt(EXTRA_APPWIDGET_ID,
+                                         INVALID_APPWIDGET_ID) ?: 0
 
-        habitIds = ArrayList()
+        habitIds = ArrayList<Long>()
         val habitNames = ArrayList<String>()
         for (h in habitList) {
             if (h.isArchived) continue
-            habitIds.add(h.id!!)
+            habitIds.add(h.getId()!!)
             habitNames.add(h.name)
         }
 
         setContentView(R.layout.widget_configure_activity)
-        listView = findViewById(R.id.listView) as ListView
-
-        with(listView) {
-            adapter = ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, habitNames)
-            choiceMode = CHOICE_MODE_MULTIPLE
-            itemsCanFocus = false
+        with(findViewById(R.id.listView) as ListView) {
+            adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1,
+                                   habitNames)
+            onItemClickListener = this@HabitPickerDialog
         }
+    }
 
-        with(findViewById(R.id.buttonSave) as Button) {
-            setOnClickListener({
-                val selectedIds = mutableListOf<Long>()
-                for (i in 0..listView.count) {
-                    if (listView.isItemChecked(i)) {
-                        selectedIds.add(habitIds[i])
-                    }
-                }
-
-                preferences.addWidget(widgetId, selectedIds.toLongArray())
-                widgetUpdater.updateWidgets()
-                setResult(Activity.RESULT_OK, Intent().apply {
-                    putExtra(EXTRA_APPWIDGET_ID, widgetId)
-                })
-                finish()
-            })
-        }
+    override fun onItemClick(parent: AdapterView<*>,
+                             view: View,
+                             position: Int,
+                             id: Long) {
+        preferences.addWidget(widgetId, habitIds[position])
+        widgetUpdater.updateWidgets()
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra(EXTRA_APPWIDGET_ID, widgetId)
+        })
+        finish()
     }
 }

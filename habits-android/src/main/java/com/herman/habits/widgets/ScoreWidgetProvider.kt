@@ -19,11 +19,12 @@
 package com.herman.habits.widgets
 
 import android.content.*
+import com.herman.habits.*
 
 class ScoreWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
-        val habits = getHabitsFromWidgetId(id)
-        if (habits.size == 1) return ScoreWidget(context, id, habits[0])
-        else return StackWidget(context, id, StackWidgetType.SCORE, habits)
+        val component = (context.applicationContext as HabitsApplication).component
+        val habit = getHabitFromWidgetId(id)
+        return ScoreWidget(context, id, habit, component.preferences)
     }
 }

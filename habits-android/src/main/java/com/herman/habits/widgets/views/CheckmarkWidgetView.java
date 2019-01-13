@@ -79,8 +79,15 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 setShadowAlpha(0x4f);
                 rebuildBackground();
 
+                if (0 == fgColor) {
+                    fgColor = PaletteUtils.getAndroidTestColor(17);
+                }
+
+                if (0 == bgColor) {
+                    bgColor = PaletteUtils.getAndroidTestColor(6);
+                }
                 backgroundPaint.setColor(bgColor);
-                frame.setBackgroundDrawable(background);
+                frame.setBackground(background);
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
@@ -88,6 +95,13 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 bgColor = res.getColor(R.attr.onwCardBackgroundColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
 
+                if (0 == fgColor) {
+                    fgColor = PaletteUtils.getAndroidTestColor(17);
+                }
+
+                if (0 == bgColor) {
+                    bgColor = PaletteUtils.getAndroidTestColor(6);
+                }
                 setShadowAlpha(0x00);
                 rebuildBackground();
 
@@ -98,6 +112,14 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 text = getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.onwCardBackgroundColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
+
+                if (0 == fgColor) {
+                    fgColor = PaletteUtils.getAndroidTestColor(6);
+                }
+
+                if (0 == bgColor) {
+                    bgColor = PaletteUtils.getAndroidTestColor(17);
+                }
 
                 setShadowAlpha(0x00);
                 rebuildBackground();

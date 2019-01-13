@@ -24,13 +24,15 @@ import android.view.*
 import com.herman.habits.activities.common.views.*
 import com.herman.habits.activities.habits.show.views.*
 import com.herman.habits.core.models.*
+import com.herman.habits.core.preferences.*
 import com.herman.habits.utils.*
 import com.herman.habits.widgets.views.*
 
 class ScoreWidget(
         context: Context,
         id: Int,
-        private val habit: Habit
+        private val habit: Habit,
+        private val prefs: Preferences
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context) =

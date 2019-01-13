@@ -19,9 +19,6 @@
 
 package com.herman.habits.core.models;
 
-import com.herman.habits.core.utils.DateFormats;
-import com.herman.habits.core.utils.DateUtils;
-
 import org.apache.commons.lang3.builder.*;
 
 import java.util.*;
@@ -141,16 +138,13 @@ public final class Timestamp
     @Override
     public String toString()
     {
-        return DateFormats.getCSVDateFormat().format(new Date(unixTime));
+        return new ToStringBuilder(this, defaultToStringStyle())
+            .append("unixTime", unixTime)
+            .toString();
     }
 
     public int getWeekday()
     {
         return toCalendar().get(DAY_OF_WEEK) % 7;
-    }
-
-    public Timestamp truncate(DateUtils.TruncateField field)
-    {
-        return new Timestamp(DateUtils.truncate(field, unixTime));
     }
 }

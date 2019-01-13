@@ -29,9 +29,6 @@ import com.herman.habits.*;
 import com.herman.habits.core.models.*;
 import com.herman.habits.core.preferences.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
@@ -80,7 +77,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (context == null) throw new RuntimeException("context is null");
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
-            context.setTheme(R.style.OpaqueWidgetTheme);
+            context.setTheme(R.style.TransparentWidgetTheme);
 
             updateDependencies(context);
 
@@ -126,7 +123,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (context == null) throw new RuntimeException("context is null");
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
-        context.setTheme(R.style.OpaqueWidgetTheme);
+        context.setTheme(R.style.TransparentWidgetTheme);
 
         updateDependencies(context);
 
@@ -138,18 +135,13 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }).start();
     }
 
-    protected List<Habit> getHabitsFromWidgetId(int widgetId)
+    @NonNull
+    protected Habit getHabitFromWidgetId(int widgetId)
     {
-        long selectedIds[] = widgetPrefs.getHabitIdsFromWidgetId(widgetId);
-        ArrayList<Habit> selectedHabits = new ArrayList<>(selectedIds.length);
-        for (long id : selectedIds)
-        {
-            Habit h = habits.getById(id);
-            if (h == null) throw new HabitNotFoundException();
-            selectedHabits.add(h);
-        }
-
-        return selectedHabits;
+        long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
+        Habit habit = habits.getById(habitId);
+        if (habit == null) throw new HabitNotFoundException();
+        return habit;
     }
 
     @NonNull

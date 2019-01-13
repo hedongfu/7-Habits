@@ -19,6 +19,7 @@
 
 package com.herman.habits.widgets;
 
+import android.support.test.filters.MediumTest;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 import android.widget.*;

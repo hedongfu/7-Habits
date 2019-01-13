@@ -64,9 +64,9 @@ public final class Repetition
         Repetition that = (Repetition) o;
 
         return new EqualsBuilder()
-                .append(timestamp, that.timestamp)
-                .append(value, that.value)
-                .isEquals();
+            .append(timestamp, that.timestamp)
+            .append(value, that.value)
+            .isEquals();
     }
 
     public Timestamp getTimestamp()
@@ -83,17 +83,17 @@ public final class Repetition
     public int hashCode()
     {
         return new HashCodeBuilder(17, 37)
-                .append(timestamp)
-                .append(value)
-                .toHashCode();
+            .append(timestamp)
+            .append(value)
+            .toHashCode();
     }
 
     @Override
     public String toString()
     {
         return new ToStringBuilder(this, defaultToStringStyle())
-                .append("timestamp", timestamp)
-                .append("value", value)
-                .toString();
+            .append("timestamp", timestamp)
+            .append("value", value)
+            .toString();
     }
 }

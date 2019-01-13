@@ -59,8 +59,8 @@ public class PaletteUtils
             Log.w("ColorHelper",
                 String.format("Invalid color: %d. Returning default.",
                     paletteColor));
-            paletteColor = 0;
-            return Color.LTGRAY;
+            //paletteColor = 0;
+            return getAndroidTestColor(paletteColor); // Return default color
         }
 
         return palette[paletteColor];
