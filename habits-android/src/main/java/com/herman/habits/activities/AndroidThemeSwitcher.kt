@@ -19,6 +19,9 @@
 
 package com.herman.habits.activities
 
+import android.content.res.Configuration.*
+import android.os.Build.VERSION.*
+import androidx.core.content.*
 import com.herman.androidbase.activities.*
 import com.herman.habits.*
 import com.herman.habits.core.preferences.*
@@ -32,8 +35,20 @@ class AndroidThemeSwitcher
         preferences: Preferences
 ) : ThemeSwitcher(preferences) {
 
+    override fun getSystemTheme(): Int {
+        if(SDK_INT < 29) return THEME_LIGHT;
+        val uiMode = activity.resources.configuration.uiMode
+        return if ((uiMode and UI_MODE_NIGHT_MASK) == UI_MODE_NIGHT_YES) {
+            THEME_DARK;
+        } else {
+            THEME_LIGHT;
+        }
+    }
+
     override fun applyDarkTheme() {
         activity.setTheme(R.style.AppBaseThemeDark)
+        activity.window.navigationBarColor =
+                ContextCompat.getColor(activity, R.color.grey_900)
     }
 
     override fun applyLightTheme() {
@@ -42,5 +57,14 @@ class AndroidThemeSwitcher
 
     override fun applyPureBlackTheme() {
         activity.setTheme(R.style.AppBaseThemeDark_PureBlack)
+        activity.window.navigationBarColor =
+                ContextCompat.getColor(activity, R.color.black)
+    }
+
+    fun getDialogTheme(): Int {
+        return when {
+            isNightMode -> R.style.DarkDialogWithTitle
+            else -> R.style.DialogWithTitle
+        }
     }
 }

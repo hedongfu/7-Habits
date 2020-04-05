@@ -19,14 +19,16 @@
 
 package com.herman.habits.activities.habits.edit;
 
+import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v7.app.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.*;
 import android.text.format.*;
 import android.view.*;
 
-import com.android.datetimepicker.time.*;
+import com.android.datetimepicker.time.TimePickerDialog;
 
 import com.herman.habits.*;
 import com.herman.habits.R;
@@ -39,7 +41,7 @@ import com.herman.habits.core.preferences.*;
 
 import butterknife.*;
 
-import static android.view.View.GONE;
+import static android.view.View.*;
 import static com.herman.habits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
@@ -47,6 +49,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
     public static final String BUNDLE_HABIT_ID = "habitId";
 
     public static final String BUNDLE_HABIT_TYPE = "habitType";
+
+    private static final String WEEKDAY_PICKER_TAG = "weekdayPicker";
 
     protected Habit originalHabit;
 
@@ -77,13 +81,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
     @Override
     public int getTheme()
     {
-        HabitsApplicationComponent component =
-            ((HabitsApplication) getContext().getApplicationContext()).getComponent();
-
-        if(component.getPreferences().getTheme() == THEME_LIGHT)
-            return R.style.DialogWithTitle;
-        else
-            return R.style.DarkDialogWithTitle;
+        HabitsActivity activity = (HabitsActivity) getActivity();
+        return activity.getComponent().getThemeSwitcher().getDialogTheme();
     }
 
     @Override
@@ -114,7 +113,20 @@ public class EditHabitDialog extends AppCompatDialogFragment
         setupReminderController();
         setupNameController();
 
+        restoreChildFragmentListeners();
+
         return view;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+        final Window window = dialog.getWindow();
+        if (window != null) {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        }
+        return dialog;
     }
 
     protected int getTitle()
@@ -175,6 +187,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
             habit.copyFrom(originalHabit);
         habit.setName(namePanel.getName());
         habit.setDescription(namePanel.getDescription());
+        habit.setQuestion(namePanel.getQuestion());
         habit.setColor(namePanel.getColor());
         habit.setReminder(reminderPanel.getReminder());
         habit.setFrequency(frequencyPanel.getFrequency());
@@ -262,8 +275,16 @@ public class EditHabitDialog extends AppCompatDialogFragment
                 WeekdayPickerDialog dialog = new WeekdayPickerDialog();
                 dialog.setListener(reminderPanel);
                 dialog.setSelectedDays(currentDays);
-                dialog.show(getFragmentManager(), "weekdayPicker");
+                dialog.show(getChildFragmentManager(), WEEKDAY_PICKER_TAG);
             }
         });
+    }
+
+    private void restoreChildFragmentListeners()
+    {
+        final WeekdayPickerDialog dialog =
+                (WeekdayPickerDialog) getChildFragmentManager()
+                        .findFragmentByTag(WEEKDAY_PICKER_TAG);
+        if(dialog != null) dialog.setListener(reminderPanel);
     }
 }

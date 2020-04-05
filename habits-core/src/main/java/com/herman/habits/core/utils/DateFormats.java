@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.utils;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import java.text.*;
 import java.util.*;

@@ -22,7 +22,7 @@ package com.herman.habits.activities.habits.list
 import android.content.*
 import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import com.herman.androidbase.activities.*

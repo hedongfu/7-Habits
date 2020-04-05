@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.io;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import com.herman.habits.core.database.*;
 import com.herman.habits.core.models.*;
@@ -101,7 +101,7 @@ public class RewireDBImporter extends AbstractImporter
 
                 Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
-                habit.setDescription(description);
+                habit.setDescription(description == null ? "" : description);
 
                 int periods[] = { 7, 31, 365 };
                 int numerator, denominator;

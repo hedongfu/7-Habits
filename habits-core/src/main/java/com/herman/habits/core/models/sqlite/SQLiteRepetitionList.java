@@ -21,8 +21,7 @@
 
 package com.herman.habits.core.models.sqlite;
 
-import android.support.annotation.*;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
 
 import com.herman.habits.core.database.*;
 import com.herman.habits.core.models.*;

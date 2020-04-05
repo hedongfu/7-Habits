@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.commands;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import com.herman.habits.core.*;
 import com.herman.habits.core.tasks.*;

@@ -22,9 +22,11 @@ package com.herman.habits.activities.common.views;
 import android.content.*;
 import android.graphics.*;
 import android.graphics.Paint.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.herman.androidbase.utils.*;
 import com.herman.habits.*;
@@ -92,6 +94,7 @@ public class HistoryChart extends ScrollableChart
     private float headerOverflow = 0;
 
     private boolean isNumerical = false;
+    private int firstWeekday = Calendar.SUNDAY;
 
     @NonNull
     private Controller controller;
@@ -210,6 +213,11 @@ public class HistoryChart extends ScrollableChart
         postInvalidate();
     }
 
+    public void setFirstWeekday(int firstWeekday)
+    {
+        this.firstWeekday = firstWeekday;
+        postInvalidate();
+    }
     protected void initPaints()
     {
         pTextHeader = new Paint();
@@ -293,7 +301,7 @@ public class HistoryChart extends ScrollableChart
     {
         float verticalOffset = pTextHeader.getFontSpacing() * 0.4f;
 
-        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT))
+        for (String day : DateUtils.getShortWeekdayNames(firstWeekday))
         {
             location.offset(0, columnWidth);
             canvas.drawText(day, location.left + headerTextOffset,
@@ -375,7 +383,7 @@ public class HistoryChart extends ScrollableChart
     {
         float width = 0;
 
-        for (String w : DateUtils.getLocaleDayNames(Calendar.SHORT))
+        for (String w : DateUtils.getShortWeekdayNames(firstWeekday))
             width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
@@ -473,7 +481,7 @@ public class HistoryChart extends ScrollableChart
         int realWeekday =
             DateUtils.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK);
         todayPositionInColumn =
-            (7 + realWeekday - baseDate.getFirstDayOfWeek()) % 7;
+            (7 + realWeekday - firstWeekday) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
         baseDate.add(Calendar.DAY_OF_YEAR, -todayPositionInColumn);

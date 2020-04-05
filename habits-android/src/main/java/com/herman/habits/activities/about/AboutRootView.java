@@ -19,19 +19,23 @@
 
 package com.herman.habits.activities.about;
 
-import android.content.*;
-import android.support.annotation.*;
-import android.widget.*;
+import android.content.Context;
+import android.widget.TextView;
 
-import com.herman.androidbase.activities.*;
-import com.herman.androidbase.utils.*;
+import androidx.annotation.NonNull;
+
+import com.herman.androidbase.activities.ActivityContext;
+import com.herman.androidbase.activities.BaseRootView;
+import com.herman.androidbase.utils.StyledResources;
 import com.herman.habits.BuildConfig;
 import com.herman.habits.R;
-import com.herman.habits.core.ui.screens.about.*;
+import com.herman.habits.core.ui.screens.about.AboutBehavior;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AboutRootView extends BaseRootView
 {
@@ -96,6 +100,19 @@ public class AboutRootView extends BaseRootView
     {
         behavior.onTranslateApp();
     }
+
+    @OnClick(R.id.tvPrivacy)
+    public void onClickPrivacy()
+    {
+        behavior.onClickPrivacy();
+    }
+
+    @OnClick(R.id.tvContributors)
+    public void onClickContributors()
+    {
+        behavior.onClickCodeContributors();
+    }
+
 
     @Override
     protected void initToolbar()

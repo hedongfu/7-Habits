@@ -22,11 +22,12 @@ package com.herman.habits.activities.habits.edit.views;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.herman.habits.R;
 import com.herman.habits.activities.common.views.*;
 import com.herman.habits.core.models.*;
@@ -39,6 +40,8 @@ public class NameDescriptionPanel extends FrameLayout
 {
     @BindView(R.id.tvName)
     EditText tvName;
+    @BindView(R.id.tvQuestion)
+    ExampleEditText tvQuestion;
 
     @BindView(R.id.tvDescription)
     ExampleEditText tvDescription;
@@ -78,6 +81,12 @@ public class NameDescriptionPanel extends FrameLayout
     }
 
     @NonNull
+    public String getQuestion()
+    {
+        return tvQuestion.getRealText().trim();
+    }
+
+    @NonNull
     public String getName()
     {
         return tvName.getText().toString().trim();
@@ -88,12 +97,13 @@ public class NameDescriptionPanel extends FrameLayout
         Resources res = getResources();
 
         if(habit.isNumerical())
-            tvDescription.setExample(res.getString(R.string.example_question_numerical));
+            tvQuestion.setExample(res.getString(R.string.example_question_numerical));
         else
-            tvDescription.setExample(res.getString(R.string.example_question_boolean));
+            tvQuestion.setExample(res.getString(R.string.example_question_boolean));
 
         setColor(habit.getColor());
         tvName.setText(habit.getName());
+        tvQuestion.setRealText(habit.getQuestion());
         tvDescription.setRealText(habit.getDescription());
     }
 

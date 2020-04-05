@@ -20,10 +20,11 @@
 package com.herman.habits.widgets.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.herman.androidbase.utils.*;
 import com.herman.habits.*;
 import com.herman.habits.core.models.*;
@@ -75,55 +76,24 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 text = getResources().getString(R.string.fa_check);
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
-
                 setShadowAlpha(0x4f);
-                rebuildBackground();
-
-                if (0 == fgColor) {
-                    fgColor = PaletteUtils.getAndroidTestColor(17);
-                }
-
-                if (0 == bgColor) {
-                    bgColor = PaletteUtils.getAndroidTestColor(6);
-                }
                 backgroundPaint.setColor(bgColor);
-                frame.setBackground(background);
+                frame.setBackgroundDrawable(background);
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
                 text = getResources().getString(R.string.fa_check);
-                bgColor = res.getColor(R.attr.onwCardBackgroundColor);
+                bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
-
-                if (0 == fgColor) {
-                    fgColor = PaletteUtils.getAndroidTestColor(17);
-                }
-
-                if (0 == bgColor) {
-                    bgColor = PaletteUtils.getAndroidTestColor(6);
-                }
                 setShadowAlpha(0x00);
-                rebuildBackground();
-
                 break;
 
             case Checkmark.UNCHECKED:
             default:
                 text = getResources().getString(R.string.fa_times);
-                bgColor = res.getColor(R.attr.onwCardBackgroundColor);
+                bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
-
-                if (0 == fgColor) {
-                    fgColor = PaletteUtils.getAndroidTestColor(6);
-                }
-
-                if (0 == bgColor) {
-                    bgColor = PaletteUtils.getAndroidTestColor(17);
-                }
-
                 setShadowAlpha(0x00);
-                rebuildBackground();
-
                 break;
         }
 

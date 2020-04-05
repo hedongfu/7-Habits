@@ -31,8 +31,7 @@ import com.herman.habits.widgets.views.*
 class ScoreWidget(
         context: Context,
         id: Int,
-        private val habit: Habit,
-        private val prefs: Preferences
+        private val habit: Habit
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context) =
@@ -42,10 +41,12 @@ class ScoreWidget(
         val size = ScoreCard.BUCKET_SIZES[prefs.defaultScoreSpinnerPosition]
         val scores = when(size) {
             1 -> habit.scores.toList()
-            else -> habit.scores.groupBy(ScoreCard.getTruncateField(size))
+            else -> habit.scores.groupBy(ScoreCard.getTruncateField(size),
+                                         prefs.firstWeekday)
         }
 
         val widgetView = view as GraphWidgetView
+        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
             setBucketSize(size)

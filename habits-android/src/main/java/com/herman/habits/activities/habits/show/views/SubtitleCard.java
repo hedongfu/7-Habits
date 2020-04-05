@@ -27,6 +27,7 @@ import android.widget.*;
 
 import com.herman.habits.R;
 import com.herman.habits.core.models.*;
+import com.herman.habits.core.tasks.Task;
 import com.herman.habits.utils.*;
 
 import butterknife.*;
@@ -58,12 +59,12 @@ public class SubtitleCard extends HabitCard
         questionLabel.setVisibility(VISIBLE);
 
         questionLabel.setTextColor(color);
-        questionLabel.setText(habit.getDescription());
+        questionLabel.setText(habit.getQuestion());
         frequencyLabel.setText(toText(habit.getFrequency()));
 
         if (habit.hasReminder()) updateReminderText(habit.getReminder());
 
-        if (habit.getDescription().isEmpty()) questionLabel.setVisibility(GONE);
+        if (habit.getQuestion().isEmpty()) questionLabel.setVisibility(GONE);
 
         invalidate();
     }
@@ -110,5 +111,11 @@ public class SubtitleCard extends HabitCard
         reminderLabel.setText(
             AndroidDateUtils.formatTime(getContext(), reminder.getHour(),
                 reminder.getMinute()));
+    }
+
+    @Override
+    protected Task createRefreshTask() {
+        // Never called
+        throw new IllegalStateException();
     }
 }

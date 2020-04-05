@@ -19,7 +19,8 @@
 
 package com.herman.habits.core.models;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.builder.*;
 import com.herman.habits.core.utils.*;
@@ -349,6 +350,12 @@ public abstract class CheckmarkList
         add(buildCheckmarksFromIntervals(reps, intervals));
     }
 
+    public List<Checkmark> getAll() {
+        Repetition oldest = habit.getRepetitions().getOldest();
+        if(oldest == null) return new ArrayList<>();
+        return getByInterval(oldest.getTimestamp(), DateUtils.getToday());
+    }
+
     static final class Interval
     {
         final Timestamp begin;
@@ -403,5 +410,36 @@ public abstract class CheckmarkList
                 .append("end", end)
                 .toString();
         }
+    }
+
+    @NonNull
+    public List<Checkmark> groupBy(DateUtils.TruncateField field, int firstWeekday)
+    {
+        List<Checkmark> checks = getAll();
+
+        int count = 0;
+        Timestamp truncatedTimestamps[] = new Timestamp[checks.size()];
+        int values[] = new int[checks.size()];
+
+        for (Checkmark rep : checks)
+        {
+            Timestamp tt = rep.getTimestamp().truncate(field, firstWeekday);
+            if (count == 0 || !truncatedTimestamps[count - 1].equals(tt))
+                truncatedTimestamps[count++] = tt;
+
+            if(habit.isNumerical())
+                values[count - 1] += rep.getValue();
+            else if(rep.getValue() == Checkmark.CHECKED_EXPLICITLY)
+                values[count - 1] += 1000;
+        }
+
+        ArrayList<Checkmark> groupedCheckmarks = new ArrayList<>();
+        for (int i = 0; i < count; i++)
+        {
+            Checkmark rep = new Checkmark(truncatedTimestamps[i], values[i]);
+            groupedCheckmarks.add(rep);
+        }
+
+        return groupedCheckmarks;
     }
 }

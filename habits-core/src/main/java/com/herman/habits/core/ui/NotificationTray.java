@@ -19,7 +19,8 @@
 
 package com.herman.habits.core.ui;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.herman.habits.core.*;
 import com.herman.habits.core.commands.*;
@@ -148,6 +149,7 @@ public class NotificationTray
                               int notificationId,
                               Timestamp timestamp,
                               long reminderTime);
+        void log(String msg);
     }
 
     class NotificationData
@@ -189,9 +191,31 @@ public class NotificationTray
         @Override
         public void onPostExecute()
         {
-            if (todayValue != Checkmark.UNCHECKED) return;
-            if (!shouldShowReminderToday()) return;
-            if (!habit.hasReminder()) return;
+            systemTray.log("Showing notification for habit=" + habit.id);
+
+            if (todayValue != Checkmark.UNCHECKED) {
+                systemTray.log(String.format(
+                        Locale.US,
+                        "Habit %d already checked. Skipping.",
+                        habit.id));
+                return;
+            }
+
+            if (!shouldShowReminderToday()) {
+                systemTray.log(String.format(
+                        Locale.US,
+                        "Habit %d not supposed to run today. Skipping.",
+                        habit.id));
+                return;
+            }
+
+            if (!habit.hasReminder()) {
+                systemTray.log(String.format(
+                        Locale.US,
+                        "Habit %d does not have a reminder. Skipping.",
+                        habit.id));
+                return;
+            }
 
             systemTray.showNotification(habit, getNotificationId(habit), timestamp,
                 reminderTime);

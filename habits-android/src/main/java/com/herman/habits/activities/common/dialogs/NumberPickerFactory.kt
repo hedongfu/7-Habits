@@ -20,7 +20,7 @@
 package com.herman.habits.activities.common.dialogs
 
 import android.content.*
-import android.support.v7.app.*
+import androidx.appcompat.app.*
 import android.text.*
 import android.view.*
 import android.view.inputmethod.*
@@ -71,7 +71,7 @@ class NumberPickerFactory
                 }
                 .create()
 
-        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         InterfaceUtils.setupEditorAction(picker) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE)

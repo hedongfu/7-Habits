@@ -20,9 +20,8 @@
 package com.herman.androidbase;
 
 import android.content.*;
-import android.support.annotation.*;
 
-import com.herman.androidbase.*;
+import androidx.annotation.NonNull;
 
 import java.io.*;
 import java.security.*;

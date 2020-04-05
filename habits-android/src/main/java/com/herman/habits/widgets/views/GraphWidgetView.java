@@ -20,10 +20,10 @@
 package com.herman.habits.widgets.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
 import com.herman.habits.*;
 
 public class GraphWidgetView extends HabitWidgetView

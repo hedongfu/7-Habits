@@ -21,8 +21,10 @@ package com.herman.habits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
 import android.util.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.herman.androidbase.utils.*;
 import com.herman.habits.*;
@@ -433,7 +435,7 @@ public class BarChart extends ScrollableChart
         primaryColor = Color.BLACK;
         textColor = res.getColor(R.attr.mediumContrastTextColor);
         gridColor = res.getColor(R.attr.lowContrastTextColor);
-        backgroundColor = res.getColor(R.attr.onwCardBackgroundColor);
+        backgroundColor = res.getColor(R.attr.cardBgColor);
     }
 
     private void initDateFormats()

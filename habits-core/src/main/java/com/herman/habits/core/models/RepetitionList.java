@@ -19,7 +19,8 @@
 
 package com.herman.habits.core.models;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.herman.habits.core.utils.*;
 

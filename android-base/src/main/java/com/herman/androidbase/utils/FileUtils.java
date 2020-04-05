@@ -20,8 +20,10 @@
 package com.herman.androidbase.utils;
 
 import android.os.*;
-import android.support.annotation.*;
 import android.util.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.*;
 

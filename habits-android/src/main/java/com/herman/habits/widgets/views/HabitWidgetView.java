@@ -23,11 +23,12 @@ import android.content.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
 import android.graphics.drawable.shapes.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.herman.androidbase.utils.*;
 import com.herman.habits.*;
 
@@ -49,6 +50,8 @@ public abstract class HabitWidgetView extends FrameLayout
 
     private StyledResources res;
 
+    private int backgroundAlpha;
+
     public HabitWidgetView(Context context)
     {
         super(context);
@@ -64,18 +67,22 @@ public abstract class HabitWidgetView extends FrameLayout
     public void setShadowAlpha(int shadowAlpha)
     {
         this.shadowAlpha = shadowAlpha;
+        rebuildBackground();
+    }
+
+    public void setBackgroundAlpha(int backgroundAlpha)
+    {
+        this.backgroundAlpha = backgroundAlpha;
+        rebuildBackground();
     }
 
     protected abstract
     @NonNull
     Integer getInnerLayoutId();
 
-    protected void rebuildBackground()
+    public void rebuildBackground()
     {
         Context context = getContext();
-
-        int backgroundAlpha =
-            (int) (255 * res.getFloat(R.attr.widgetBackgroundAlpha));
 
         int shadowRadius = (int) dpToPixels(context, 2);
         int shadowOffset = (int) dpToPixels(context, 1);
@@ -97,11 +104,11 @@ public abstract class HabitWidgetView extends FrameLayout
         backgroundPaint = innerDrawable.getPaint();
         backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset,
             shadowColor);
-        backgroundPaint.setColor(res.getColor(R.attr.cardBackgroundColor));
+        backgroundPaint.setColor(res.getColor(R.attr.cardBgColor));
         backgroundPaint.setAlpha(backgroundAlpha);
 
         frame = (ViewGroup) findViewById(R.id.frame);
-        if (frame != null) frame.setBackground(background);
+        if (frame != null) frame.setBackgroundDrawable(background);
     }
 
     private void init()

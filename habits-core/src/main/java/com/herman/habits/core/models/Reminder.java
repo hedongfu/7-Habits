@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.models;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.builder.*;
 import com.herman.habits.core.utils.*;

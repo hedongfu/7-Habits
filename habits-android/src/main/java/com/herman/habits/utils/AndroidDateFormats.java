@@ -18,7 +18,7 @@
  */
 package com.herman.habits.utils;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.herman.habits.core.utils.*;
 

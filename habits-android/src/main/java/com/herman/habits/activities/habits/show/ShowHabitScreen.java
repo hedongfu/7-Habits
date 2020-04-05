@@ -19,7 +19,7 @@
 
 package com.herman.habits.activities.habits.show;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.herman.androidbase.activities.*;
 import com.herman.habits.*;

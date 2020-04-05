@@ -19,6 +19,7 @@
 
 package com.herman.habits.tasks;
 
+import android.support.test.filters.MediumTest;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 

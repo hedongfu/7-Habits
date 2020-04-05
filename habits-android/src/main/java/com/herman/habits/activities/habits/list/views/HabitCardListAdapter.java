@@ -19,16 +19,24 @@
 
 package com.herman.habits.activities.habits.list.views;
 
-import android.support.annotation.*;
-import android.support.v7.widget.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.*;
 import android.view.*;
 
-import com.herman.androidbase.activities.*;
-import com.herman.habits.activities.habits.list.*;
-import com.herman.habits.core.models.*;
-import com.herman.habits.core.preferences.*;
-import com.herman.habits.core.ui.screens.habits.list.*;
-import com.herman.habits.core.utils.*;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.herman.androidbase.activities.ActivityScope;
+import com.herman.habits.activities.habits.list.ListHabitsRootViewKt;
+import com.herman.habits.core.models.Habit;
+import com.herman.habits.core.models.HabitList;
+import com.herman.habits.core.models.HabitMatcher;
+import com.herman.habits.core.models.ModelObservable;
+import com.herman.habits.core.preferences.Preferences;
+import com.herman.habits.core.ui.screens.habits.list.HabitCardListCache;
+import com.herman.habits.core.ui.screens.habits.list.ListHabitsMenuBehavior;
+import com.herman.habits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior;
+import com.herman.habits.core.utils.MidnightTimer;
 
 import java.util.*;
 

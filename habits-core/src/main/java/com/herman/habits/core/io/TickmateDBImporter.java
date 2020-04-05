@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.io;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import com.herman.habits.core.database.*;
 import com.herman.habits.core.models.*;
@@ -127,7 +127,7 @@ public class TickmateDBImporter extends AbstractImporter
 
                 Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
-                habit.setDescription(description);
+                habit.setDescription(description == null ? "" : description);
                 habit.setFrequency(Frequency.DAILY);
                 habitList.add(habit);
 

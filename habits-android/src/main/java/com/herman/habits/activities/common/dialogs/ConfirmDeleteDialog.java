@@ -20,8 +20,9 @@
 package com.herman.habits.activities.common.dialogs;
 
 import android.content.*;
-import android.support.annotation.*;
-import android.support.v7.app.*;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.*;
 
 import com.google.auto.factory.*;
 

@@ -20,7 +20,7 @@
 package com.herman.habits.activities.habits.edit;
 
 import android.os.*;
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.herman.habits.core.models.*;
 

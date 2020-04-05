@@ -22,5 +22,5 @@ package com.herman.habits.core;
 public class Config
 {
     public static final String DATABASE_FILENAME = "habits.db";
-    public static int DATABASE_VERSION = 22;
+    public static int DATABASE_VERSION = 23;
 }

@@ -19,7 +19,8 @@
 
 package com.herman.habits.core.tasks;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.auto.factory.*;
 

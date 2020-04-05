@@ -20,7 +20,6 @@
 package com.herman.habits.activities.habits.show.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
@@ -45,9 +44,6 @@ public class StreakCard extends HabitCard
     @BindView(R.id.streakChart)
     StreakChart streakChart;
 
-    @Nullable
-    private TaskRunner taskRunner;
-
     public StreakCard(Context context)
     {
         super(context);
@@ -60,22 +56,8 @@ public class StreakCard extends HabitCard
         init();
     }
 
-    @Override
-    protected void refreshData()
-    {
-        if(taskRunner == null) return;
-        taskRunner.execute(new RefreshTask());
-    }
-
     private void init()
     {
-        Context appContext = getContext().getApplicationContext();
-        if (appContext instanceof HabitsApplication)
-        {
-            HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
-        }
-
         inflate(getContext(), R.layout.show_habit_streak, this);
         ButterKnife.bind(this);
         setOrientation(VERTICAL);
@@ -90,13 +72,20 @@ public class StreakCard extends HabitCard
         streakChart.populateWithRandomData();
     }
 
-    private class RefreshTask implements Task
+    @Override
+    protected Task createRefreshTask()
     {
-        public List<Streak> bestStreaks;
+        return new RefreshTask();
+    }
+
+    private class RefreshTask extends CancelableTask
+    {
+        List<Streak> bestStreaks;
 
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             StreakList streaks = getHabit().getStreaks();
             bestStreaks = streaks.getBest(NUM_STREAKS);
         }
@@ -104,6 +93,7 @@ public class StreakCard extends HabitCard
         @Override
         public void onPostExecute()
         {
+            if (isCanceled()) return;
             streakChart.setStreaks(bestStreaks);
         }
 

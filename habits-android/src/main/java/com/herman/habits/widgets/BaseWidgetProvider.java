@@ -22,22 +22,24 @@ package com.herman.habits.widgets;
 import android.appwidget.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.herman.habits.*;
 import com.herman.habits.core.models.*;
 import com.herman.habits.core.preferences.*;
 
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH;
+import java.util.*;
+
+import static android.appwidget.AppWidgetManager.*;
 import static com.herman.androidbase.utils.InterfaceUtils.dpToPixels;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
     private HabitList habits;
+
+    private Preferences preferences;
 
     private WidgetPreferences widgetPrefs;
 
@@ -77,9 +79,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (context == null) throw new RuntimeException("context is null");
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
-            context.setTheme(R.style.TransparentWidgetTheme);
-
             updateDependencies(context);
+            context.setTheme(R.style.WidgetTheme);
 
             BaseWidget widget = getWidgetFromId(context, widgetId);
             WidgetDimensions dims = getDimensionsFromOptions(context, options);
@@ -123,9 +124,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (context == null) throw new RuntimeException("context is null");
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
-        context.setTheme(R.style.TransparentWidgetTheme);
-
         updateDependencies(context);
+        context.setTheme(R.style.WidgetTheme);
 
         new Thread(() ->
         {
@@ -135,13 +135,18 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }).start();
     }
 
-    @NonNull
-    protected Habit getHabitFromWidgetId(int widgetId)
+    protected List<Habit> getHabitsFromWidgetId(int widgetId)
     {
-        long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
-        Habit habit = habits.getById(habitId);
-        if (habit == null) throw new HabitNotFoundException();
-        return habit;
+        long selectedIds[] = widgetPrefs.getHabitIdsFromWidgetId(widgetId);
+        ArrayList<Habit> selectedHabits = new ArrayList<>(selectedIds.length);
+        for (long id : selectedIds)
+        {
+            Habit h = habits.getById(id);
+            if (h == null) throw new HabitNotFoundException();
+            selectedHabits.add(h);
+        }
+
+        return selectedHabits;
     }
 
     @NonNull
@@ -174,7 +179,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             BaseWidget widget = getWidgetFromId(context, widgetId);
             Bundle options = manager.getAppWidgetOptions(widgetId);
             widget.setDimensions(getDimensionsFromOptions(context, options));
-
             updateAppWidget(manager, widget);
         }
         catch (RuntimeException e)
@@ -189,6 +193,12 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
         habits = app.getComponent().getHabitList();
+        preferences = app.getComponent().getPreferences();
         widgetPrefs = app.getComponent().getWidgetPreferences();
+    }
+
+    public Preferences getPreferences()
+    {
+        return preferences;
     }
 }

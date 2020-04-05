@@ -3,12 +3,13 @@ package com.herman.habits.notifications;
 
 import android.app.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v4.app.*;
+import androidx.annotation.Nullable;
+import androidx.core.app.*;
 import android.text.format.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.fragment.app.FragmentActivity;
 import com.android.datetimepicker.time.TimePickerDialog;
 
 import com.herman.habits.*;
@@ -26,6 +27,9 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
 
     private ReminderController reminderController;
 
+    @Nullable
+    private AlertDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle bundle)
     {
@@ -40,7 +44,7 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
         if (habit == null) finish();
 
         int theme = R.style.Theme_AppCompat_Light_Dialog_Alert;
-        AlertDialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(this, theme))
+        dialog = new AlertDialog.Builder(new ContextThemeWrapper(this, theme))
             .setTitle(R.string.select_snooze_delay)
             .setItems(R.array.snooze_picker_names, null)
             .create();
@@ -81,5 +85,12 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
     {
         super.finish();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        if (dialog != null) dialog.dismiss();
+        super.onPause();
     }
 }

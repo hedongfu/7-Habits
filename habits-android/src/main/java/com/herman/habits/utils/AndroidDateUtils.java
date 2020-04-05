@@ -41,8 +41,8 @@ public class AndroidDateUtils
 
     public static String formatWeekdayList(Context context, boolean weekday[])
     {
-        String shortDayNames[] = com.herman.habits.core.utils.DateUtils.getShortDayNames();
-        String longDayNames[] = com.herman.habits.core.utils.DateUtils.getLongDayNames();
+        String shortDayNames[] = com.herman.habits.core.utils.DateUtils.getShortWeekdayNames(Calendar.SATURDAY);
+        String longDayNames[] = com.herman.habits.core.utils.DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
         StringBuilder buffer = new StringBuilder();
 
         int count = 0;

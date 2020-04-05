@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.preferences;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import java.io.*;
 import java.util.*;

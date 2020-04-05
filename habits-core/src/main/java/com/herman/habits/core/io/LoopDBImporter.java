@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.io;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import com.herman.habits.core.database.*;
 import com.herman.habits.core.models.*;

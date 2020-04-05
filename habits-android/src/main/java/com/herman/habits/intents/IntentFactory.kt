@@ -46,6 +46,9 @@ class IntentFactory
     fun sendFeedback(context: Context) =
             buildSendToIntent(context.getString(R.string.feedbackURL))
 
+    fun privacyPolicy(context: Context) =
+            buildViewIntent(context.getString(R.string.privacyPolicyURL))
+
     fun startAboutActivity(context: Context) =
             Intent(context, AboutActivity::class.java)
 
@@ -75,4 +78,7 @@ class IntentFactory
         action = Intent.ACTION_VIEW
         data = Uri.parse(url)
     }
+
+    fun codeContributors(context: Context) =
+            buildViewIntent(context.getString(R.string.codeContributorsURL))
 }

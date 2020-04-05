@@ -21,15 +21,16 @@ package com.herman.habits.activities.habits.list.views
 
 import android.content.*
 import android.os.*
-import android.support.v7.widget.*
-import android.support.v7.widget.helper.*
-import android.support.v7.widget.helper.ItemTouchHelper.*
+import androidx.appcompat.widget.*
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
 import com.google.auto.factory.*
 import dagger.*
-import com.herman.androidbase.activities.*
-import com.herman.habits.activities.common.views.*
-import com.herman.habits.core.models.*
+import com.herman.androidbase.activities.ActivityContext
+import com.herman.habits.R
+import com.herman.habits.activities.common.views.BundleSavedState
+import com.herman.habits.core.models.Habit
 
 @AutoFactory
 class HabitCardListView(
@@ -37,7 +38,7 @@ class HabitCardListView(
         @Provided private val adapter: HabitCardListAdapter,
         @Provided private val cardViewFactory: HabitCardViewFactory,
         @Provided private val controller: Lazy<HabitCardListController>
-) : RecyclerView(context) {
+) : RecyclerView(context, null, R.attr.scrollableRecyclerViewStyle) {
 
     var checkmarkCount: Int = 0
 

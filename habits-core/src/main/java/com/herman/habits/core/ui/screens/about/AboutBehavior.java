@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.ui.screens.about;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.herman.habits.core.preferences.*;
 
@@ -72,6 +72,14 @@ public class AboutBehavior
         screen.showSourceCodeWebsite();
     }
 
+    public void onClickPrivacy() {
+        screen.showPrivacyPolicyWebsite();
+    }
+
+    public void onClickCodeContributors() {
+        screen.showCodeContributorsWebsite();
+    }
+
     public enum Message
     {
         YOU_ARE_NOW_A_DEVELOPER
@@ -88,6 +96,10 @@ public class AboutBehavior
         void showSourceCodeWebsite();
 
         void showTranslationWebsite();
+
+        void showPrivacyPolicyWebsite();
+
+        void showCodeContributorsWebsite();
     }
 
 }

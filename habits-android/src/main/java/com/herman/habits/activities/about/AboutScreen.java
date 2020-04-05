@@ -19,16 +19,18 @@
 
 package com.herman.habits.activities.about;
 
-import android.support.annotation.*;
-import android.widget.*;
+import android.widget.Toast;
 
-import com.herman.androidbase.activities.*;
-import com.herman.habits.core.ui.screens.about.*;
-import com.herman.habits.intents.*;
+import androidx.annotation.NonNull;
 
-import javax.inject.*;
+import com.herman.androidbase.activities.BaseActivity;
+import com.herman.androidbase.activities.BaseScreen;
+import com.herman.habits.core.ui.screens.about.AboutBehavior;
+import com.herman.habits.intents.IntentFactory;
 
-import static com.herman.habits.core.ui.screens.about.AboutBehavior.Message.*;
+import javax.inject.Inject;
+
+import static com.herman.habits.core.ui.screens.about.AboutBehavior.Message.YOU_ARE_NOW_A_DEVELOPER;
 
 public class AboutScreen extends BaseScreen implements AboutBehavior.Screen
 {
@@ -73,5 +75,16 @@ public class AboutScreen extends BaseScreen implements AboutBehavior.Screen
     public void showTranslationWebsite()
     {
         activity.startActivity(intents.helpTranslate(activity));
+    }
+
+    @Override
+    public void showPrivacyPolicyWebsite()
+    {
+        activity.startActivity(intents.privacyPolicy(activity));
+    }
+
+    @Override
+    public void showCodeContributorsWebsite() {
+        activity.startActivity(intents.codeContributors(activity));
     }
 }

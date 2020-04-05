@@ -21,7 +21,9 @@ package com.herman.habits.utils;
 
 import android.content.*;
 import android.database.sqlite.*;
-import android.support.annotation.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.herman.androidbase.utils.*;
 import com.herman.habits.*;

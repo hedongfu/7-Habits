@@ -19,7 +19,8 @@
 
 package com.herman.androidbase;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.herman.androidbase.activities.*;
 

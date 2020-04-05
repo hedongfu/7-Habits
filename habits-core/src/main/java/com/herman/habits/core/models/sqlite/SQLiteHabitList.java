@@ -21,7 +21,8 @@
 
 package com.herman.habits.core.models.sqlite;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.herman.habits.core.database.*;
 import com.herman.habits.core.models.*;
@@ -79,13 +80,14 @@ public class SQLiteHabitList extends HabitList
     {
         loadRecords();
         habit.setPosition(size());
-        list.add(habit);
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
         repository.save(record);
+        habit.id = record.id;
         rebuildOrder();
 
+        list.add(habit);
         getObservable().notifyListeners();
     }
 

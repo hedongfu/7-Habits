@@ -20,10 +20,11 @@
 package com.herman.habits.activities.habits.list.views
 
 import dagger.*
-import com.herman.androidbase.activities.*
-import com.herman.habits.activities.habits.list.*
-import com.herman.habits.core.models.*
-import com.herman.habits.core.ui.screens.habits.list.*
+import com.herman.androidbase.activities.ActivityScope
+import com.herman.habits.activities.habits.list.ListHabitsSelectionMenu
+import com.herman.habits.core.models.Habit
+import com.herman.habits.core.models.ModelObservable
+import com.herman.habits.core.ui.screens.habits.list.ListHabitsBehavior
 import javax.inject.*
 
 /**

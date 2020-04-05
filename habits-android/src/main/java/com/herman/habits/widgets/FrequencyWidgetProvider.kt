@@ -23,7 +23,11 @@ import android.content.*
 
 class FrequencyWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
-        val habit = getHabitFromWidgetId(id)
-        return FrequencyWidget(context, id, habit)
+        val habits = getHabitsFromWidgetId(id)
+        if (habits.size == 1) return FrequencyWidget(context,
+                                                     id,
+                                                     habits[0],
+                                                     preferences.firstWeekday)
+        else return StackWidget(context, id, StackWidgetType.FREQUENCY, habits)
     }
 }

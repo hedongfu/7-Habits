@@ -19,7 +19,8 @@
 
 package com.herman.habits.core.models;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.opencsv.*;
 
@@ -212,6 +213,7 @@ public abstract class HabitList implements Iterable<Habit>
         String header[] = {
             "Position",
             "Name",
+            "Question",
             "Description",
             "NumRepetitions",
             "Interval",
@@ -228,6 +230,7 @@ public abstract class HabitList implements Iterable<Habit>
             String[] cols = {
                 String.format("%03d", indexOf(habit) + 1),
                 habit.getName(),
+                habit.getQuestion(),
                 habit.getDescription(),
                 Integer.toString(freq.getNumerator()),
                 Integer.toString(freq.getDenominator()),

@@ -21,10 +21,11 @@ package com.herman.habits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
 import android.text.*;
 import android.util.*;
 import android.view.*;
+
+import androidx.annotation.Nullable;
 
 import com.herman.androidbase.utils.*;
 import com.herman.habits.*;
@@ -242,7 +243,7 @@ public class RingView extends View
         StyledResources res = new StyledResources(getContext());
 
         if (backgroundColor == null)
-            backgroundColor = res.getColor(R.attr.onwCardBackgroundColor);
+            backgroundColor = res.getColor(R.attr.cardBgColor);
 
         if (inactiveColor == null)
             inactiveColor = res.getColor(R.attr.highContrastTextColor);

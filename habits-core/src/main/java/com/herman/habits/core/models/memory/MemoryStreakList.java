@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.models.memory;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.herman.habits.core.models.*;
 

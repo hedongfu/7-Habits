@@ -19,9 +19,10 @@
 
 package com.herman.habits.sync;
 
-import android.support.annotation.*;
 import android.util.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.herman.androidbase.*;
 import com.herman.habits.BuildConfig;
 import com.herman.habits.core.*;

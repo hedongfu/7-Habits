@@ -20,9 +20,9 @@
 package com.herman.habits.receivers;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 
+import androidx.annotation.Nullable;
 import com.herman.habits.*;
 import com.herman.habits.core.models.*;
 import com.herman.habits.core.utils.*;
@@ -65,8 +65,8 @@ public class ReminderReceiver extends BroadcastReceiver
 
         if (intent.getData() != null)
             habit = habits.getById(parseId(intent.getData()));
-        final Long timestamp = intent.getLongExtra("timestamp", today);
-        final Long reminderTime = intent.getLongExtra("reminderTime", today);
+        final long timestamp = intent.getLongExtra("timestamp", today);
+        final long reminderTime = intent.getLongExtra("reminderTime", today);
 
         try
         {
@@ -74,21 +74,29 @@ public class ReminderReceiver extends BroadcastReceiver
             {
                 case ACTION_SHOW_REMINDER:
                     if (habit == null) return;
+                    Log.d("ReminderReceiver", String.format(
+                            "onShowReminder habit=%d timestamp=%d reminderTime=%d",
+                            habit.id,
+                            timestamp,
+                            reminderTime));
                     reminderController.onShowReminder(habit,
                             new Timestamp(timestamp), reminderTime);
                     break;
 
                 case ACTION_DISMISS_REMINDER:
                     if (habit == null) return;
+                    Log.d("ReminderReceiver", String.format("onDismiss habit=%d", habit.id));
                     reminderController.onDismiss(habit);
                     break;
 
                 case ACTION_SNOOZE_REMINDER:
                     if (habit == null) return;
+                    Log.d("ReminderReceiver", String.format("onSnoozePressed habit=%d", habit.id));
                     reminderController.onSnoozePressed(habit, context);
                     break;
 
                 case Intent.ACTION_BOOT_COMPLETED:
+                    Log.d("ReminderReceiver", "onBootCompleted");
                     reminderController.onBootCompleted();
                     break;
             }

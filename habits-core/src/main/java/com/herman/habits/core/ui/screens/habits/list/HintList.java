@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.ui.screens.habits.list;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.google.auto.factory.*;
 

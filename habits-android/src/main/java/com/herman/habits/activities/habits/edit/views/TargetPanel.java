@@ -21,11 +21,12 @@ package com.herman.habits.activities.habits.edit.views;
 
 import android.content.*;
 import android.content.res.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.herman.habits.R;
 
 import java.text.DecimalFormat;

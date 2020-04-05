@@ -19,12 +19,16 @@
 
 package com.herman.habits.core.tasks;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 public interface Task
 {
     default void cancel() {}
 
+    default boolean isCanceled()
+    {
+        return false;
+    }
     void doInBackground();
 
     default void onAttached(@NonNull TaskRunner runner) {}

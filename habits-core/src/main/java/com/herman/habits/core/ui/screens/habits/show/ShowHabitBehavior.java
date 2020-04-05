@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.ui.screens.habits.show;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.herman.habits.core.commands.*;
 import com.herman.habits.core.models.*;

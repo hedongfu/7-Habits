@@ -20,6 +20,7 @@
 package com.herman.habits.activities.habits.list
 
 import android.os.*
+import com.herman.habits.R
 import com.herman.habits.activities.*
 import com.herman.habits.activities.habits.list.views.*
 import com.herman.habits.core.preferences.*
@@ -46,6 +47,7 @@ class ListHabitsActivity : HabitsActivity() {
 
         setScreen(screen)
         component.listHabitsBehavior.onStartup()
+        setTitle(R.string.main_activity_title)
     }
 
     override fun onPause() {

@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
+cd "$(dirname "$0")"
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --stacktrace"
 PACKAGE_NAME=com.herman.habits
 OUTPUTS_DIR=habits-android/build/outputs
+VERSION=$(cat gradle.properties | grep VERSION_NAME | sed -e 's/.*=//g;s/ //g')
 
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
 	echo "Error: ANDROID_HOME is not set correctly"
@@ -55,6 +57,12 @@ fail() {
 	exit 1
 }
 
+if [ ! -z $RELEASE ]; then
+	log_info "Reading secret env variables from ../.secret/env"
+	source ../.secret/env || fail
+fi
+
+
 start_emulator() {
 	log_info "Starting emulator ($AVD_NAME)"
 	$EMULATOR -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
@@ -77,31 +85,28 @@ run_adb_as_root() {
 }
 
 build_apk() {
+	log_info "Removing old APKs..."
+	rm -vf build/*.apk
+
 	if [ ! -z $RELEASE ]; then
-		if [ -z "$KEY_FILE" -o -z "$STORE_PASSWORD" -o -z "$KEY_ALIAS" -o -z "$KEY_PASSWORD" ]; then
-			log_error "Environment variables KEY_FILE, KEY_ALIAS, KEY_PASSWORD and STORE_PASSWORD must be defined"
-			exit 1
-		fi
 		log_info "Building release APK"
-		./gradlew assembleRelease \
-			-Pandroid.injected.signing.store.file=$KEY_FILE \
-			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
-			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
-			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
-	else
-		log_info "Building debug APK"
-		./gradlew assembleDebug || fail
+		./gradlew assembleRelease
+		cp -v habits-android/build/outputs/apk/release/habits-android-release.apk build/loop-$VERSION-release.apk
 	fi
+
+	log_info "Building debug APK"
+	./gradlew assembleDebug || fail
+	cp -v habits-android/build/outputs/apk/debug/habits-android-debug.apk build/loop-$VERSION-debug.apk
 }
 
 build_instrumentation_apk() {
 	log_info "Building instrumentation APK"
 	if [ ! -z $RELEASE ]; then
 		$GRADLE assembleAndroidTest  \
-			-Pandroid.injected.signing.store.file=$KEY_FILE \
-			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
-			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
-			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
+			-Pandroid.injected.signing.store.file=$LOOP_KEY_STORE \
+			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
+			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
+			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
 	else
 		$GRADLE assembleAndroidTest || fail
 	fi
@@ -121,20 +126,15 @@ uninstall_apk() {
 install_test_butler() {
 	log_info "Installing Test Butler"
 	$ADB uninstall com.linkedin.android.testbutler
-	$ADB install tools/test-butler-app-1.3.1.apk
+	$ADB install tools/test-butler-app-2.0.2.apk
 }
 
 install_apk() {
-	if [ ! -z $UNINSTALL_FIRST ]; then
-		uninstall_apk
-	fi
-
 	log_info "Installing APK"
-
 	if [ ! -z $RELEASE ]; then
 		$ADB install -r ${OUTPUTS_DIR}/apk/release/habits-android-release.apk || fail
 	else
-		$ADB install -r ${OUTPUTS_DIR}/apk/debug/habits-android-debug.apk || fail
+		$ADB install -t -r ${OUTPUTS_DIR}/apk/debug/habits-android-debug.apk || fail
 	fi
 }
 
@@ -147,16 +147,24 @@ install_test_apk() {
 }
 
 run_instrumented_tests() {
+	SIZE=$1
 	log_info "Running instrumented tests"
 	$ADB shell am instrument \
-		-r -e coverage true -e size medium \
+		-r -e coverage true -e size $SIZE \
 		-w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
 		| tee ${OUTPUTS_DIR}/instrument.txt
 
-	mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
-	$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
-		${OUTPUTS_DIR}/code-coverage/connected/ \
-		|| log_error "COVERAGE REPORT NOT AVAILABLE"
+	if grep FAILURES $OUTPUTS_DIR/instrument.txt; then
+		log_error "Some instrumented tests failed"
+		fetch_images
+		fetch_logcat
+		exit 1
+	fi
+
+	#mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
+	#$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
+	#	${OUTPUTS_DIR}/code-coverage/connected/ \
+	#	|| log_error "COVERAGE REPORT NOT AVAILABLE"
 }
 
 parse_instrumentation_results() {
@@ -169,14 +177,6 @@ generate_coverage_badge() {
 	CORE_REPORT=habits-core/build/reports/jacoco/test/jacocoTestReport.xml
 	rm -f ${OUTPUTS_DIR}/coverage-badge.svg
 	python3 tools/coverage-badge/badge.py -i $CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
-}
-
-fetch_artifacts() {
-	log_info "Fetching generated artifacts"
-	mkdir -p ${OUTPUTS_DIR}/failed
-	$ADB pull /mnt/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
-	$ADB pull /storage/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
-	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUTS_DIR}/failed
 }
 
 fetch_logcat() {
@@ -199,14 +199,9 @@ uninstall_test_apk() {
 }
 
 fetch_images() {
-	rm -rf tmp/test-screenshots > /dev/null
-	mkdir -p tmp/
-	$ADB pull /mnt/sdcard/test-screenshots/ tmp/
-	$ADB pull /storage/sdcard/test-screenshots/ tmp/
-	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ tmp/
-
-	$ADB shell rm -r /mnt/sdcard/test-screenshots/ 
-	$ADB shell rm -r /storage/sdcard/test-screenshots/ 
+	log_info "Fetching images"
+	rm -rf $OUTPUTS_DIR/test-screenshots
+	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ $OUTPUTS_DIR
 	$ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ 
 }
 
@@ -215,15 +210,15 @@ accept_images() {
 	rsync -av tmp/test-screenshots/ habits-android/src/androidTest/assets/
 }
 
-run_local_tests() {
-	#clean_output_dir
+run_tests() {
+	SIZE=$1
 	run_adb_as_root
 	install_test_butler
+	uninstall_apk
 	install_apk
 	install_test_apk
-	run_instrumented_tests
+	run_instrumented_tests $SIZE
 	parse_instrumentation_results
-	fetch_artifacts
 	fetch_logcat
 	uninstall_test_apk
 }
@@ -249,7 +244,7 @@ case "$1" in
 		build_apk
 		build_instrumentation_apk
 		run_jvm_tests
-		generate_coverage_badge
+		#generate_coverage_badge
 		;;
 
 	ci-tests)
@@ -263,7 +258,7 @@ case "$1" in
 
 				Options:
 				    -u  --uninstall-first  Uninstall existing APK first
-				    -r  --release          Build and install release version, instead of debug
+				    -r  --release          Test release APK, instead of debug
 			END
 			exit 1
 		fi
@@ -274,15 +269,20 @@ case "$1" in
 		ADB="${ADB} -s emulator-${AVD_SERIAL}"
 
 		start_emulator
-		run_local_tests
+		run_tests medium
 		stop_emulator
 		stop_gradle_daemon
 		;;
 
-	local-tests)
+	medium-tests)
 		shift; parse_opts $*
-		run_local_tests
+		run_tests medium
 		;;
+
+	large-tests)
+		shift; parse_opts $*
+		run_tests large
+ 		;;
 
 	fetch-images)
 		fetch_images
@@ -301,7 +301,7 @@ case "$1" in
 	*)
 		cat <<- END
 			Usage: $0 <command> [options]
-			Builds, installs and tests 7-Habit Tracker
+			Builds, installs and tests Loop Habit Tracker
 
 			Commands:
 			    ci-tests      Start emulator silently, run tests then kill emulator
@@ -311,8 +311,7 @@ case "$1" in
 			    accept-images Copies fetched images to corresponding assets folder
 
 			Options:
-			    -u  --uninstall-first   Uninstall existing APK first
-			    -r  --release           Build and install release version, instead of debug
+			    -r  --release           Build and test release APK, instead of debug
 		END
 		exit 1
 esac

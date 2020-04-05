@@ -22,16 +22,19 @@ package com.herman.habits.activities.common.dialogs;
 import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.*;
 import android.util.*;
 
 import com.herman.habits.*;
 import com.herman.habits.activities.common.views.*;
 import com.herman.habits.core.models.*;
+import com.herman.habits.core.preferences.Preferences;
 import com.herman.habits.core.tasks.*;
-import com.herman.habits.utils.*;
+import com.herman.habits.utils.PaletteUtils;
 
 import static com.herman.androidbase.utils.InterfaceUtils.*;
 
@@ -50,6 +53,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     private HabitList habitList;
 
     private TaskRunner taskRunner;
+
+    private Preferences prefs;
 
     public HistoryEditorDialog()
     {
@@ -72,9 +77,11 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             (HabitsApplication) getActivity().getApplicationContext();
         habitList = app.getComponent().getHabitList();
         taskRunner = app.getComponent().getTaskRunner();
+        prefs = app.getComponent().getPreferences();
 
         historyChart = new HistoryChart(context);
         historyChart.setController(controller);
+        historyChart.setFirstWeekday(prefs.getFirstWeekday());
 
         if (savedInstanceState != null)
         {

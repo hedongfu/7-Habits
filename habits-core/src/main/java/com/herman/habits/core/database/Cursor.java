@@ -19,7 +19,7 @@
 
 package com.herman.habits.core.database;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 public interface Cursor extends AutoCloseable
 {
