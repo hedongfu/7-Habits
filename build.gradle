@@ -1,9 +1,10 @@
 buildscript {
     repositories {
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         google()
-        //jcenter()
+        jcenter()
         maven { url 'https://maven.google.com' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
     }
 
     dependencies {
@@ -16,11 +17,11 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         google()
-        maven { url 'https://maven.google.com' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-
-        //jcenter()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
 }
