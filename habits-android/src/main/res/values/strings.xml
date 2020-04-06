@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+  ~ Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
   ~
   ~ This file is part of 7-Habit Tracker.
   ~
@@ -245,4 +245,8 @@
     <string name="default_reminder_question">Have you completed this habit today?</string>
     <string name="notes">Notes</string>
     <string name="example_notes">You can put whatever you want here!</string>
+
+    <!-- Ringtone Maker -->
+    <string name="pref_promote_app">Promote APP</string>
+    <string name="pref_ringtone_maker_title">Ringtone Maker</string>
 </resources>

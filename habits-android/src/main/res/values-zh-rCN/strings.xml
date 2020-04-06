@@ -164,6 +164,8 @@
     <string name="hide_archived">隐藏已存档</string>
     <string name="sticky_notifications">使提醒持久</string>
     <string name="sticky_notifications_description">防止提醒被滑掉</string>
+    <string name="led_notifications">通知闪灯</string>
+    <string name="led_notifications_description">显示闪灯提示，只有手机有呼吸灯才支持。</string>
     <string name="repair_database">修复数据库</string>
     <string name="database_repaired">数据库已修复</string>
     <string name="uncheck">取消选中</string>
@@ -201,4 +203,8 @@
     <string name="default_reminder_question">您今天完成这个习惯了吗？</string>
     <string name="notes">笔记</string>
     <string name="example_notes">在这里写点什么都可以！</string>
+
+    <!-- Ringtone Maker -->
+    <string name="pref_promote_app">应用推荐</string>
+    <string name="pref_ringtone_maker_title">铃声剪辑</string>
 </resources>

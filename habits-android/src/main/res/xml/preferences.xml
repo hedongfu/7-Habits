@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+  ~ Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
   ~
   ~ This file is part of 7-Habit Tracker.
   ~
@@ -141,6 +141,20 @@
                 android:key="repairDB"
                 android:title="@string/repair_database"
                 app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="promoteCategory"
+        android:title="@string/pref_promote_app">
+
+        <Preference
+            android:title="@string/pref_ringtone_maker_title"
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/ringtoneMakerPlayStoreURL" />
+        </Preference>
 
     </PreferenceCategory>
 
