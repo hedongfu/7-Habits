@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+ * Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
  *
  * This file is part of 7-Habit Tracker.
  *
@@ -20,7 +20,11 @@
 package com.herman.habits.activities.settings;
 
 import android.os.*;
+import android.widget.LinearLayout;
 
+import com.facebook.ads.AdSettings;
+import com.facebook.ads.AdSize;
+import com.facebook.ads.AdView;
 import com.herman.androidbase.activities.*;
 import com.herman.androidbase.utils.*;
 import com.herman.habits.R;
@@ -30,12 +34,26 @@ import com.herman.habits.R;
  */
 public class SettingsActivity extends BaseActivity
 {
+    private AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         setupActionBarColor();
+
+        adView = new AdView(this, getString(R.string.FB_BANNER_PLACEMENT_ID), AdSize.BANNER_HEIGHT_50);
+        // Find the Ad Container
+        LinearLayout adContainer = (LinearLayout) findViewById(R.id.banner_container);
+
+        // Add the ad view to your activity layout
+        adContainer.addView(adView);
+
+        AdSettings.addTestDevice("fb250780-f9c2-4ebd-8c16-6b411975914c"); // Samsung A20
+        AdSettings.addTestDevice("61067d88-e853-4fbf-80b3-228e0c37acef"); // One Plus
+        // Request an ad
+        adView.loadAd();
     }
 
     private void setupActionBarColor()
@@ -47,5 +65,13 @@ public class SettingsActivity extends BaseActivity
             color = res.getColor(R.attr.aboutScreenColor);
 
         BaseScreen.setupActionBarColor(this, color);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

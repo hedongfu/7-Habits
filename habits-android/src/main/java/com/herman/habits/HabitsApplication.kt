@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+ * Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
  *
  * This file is part of 7-Habit Tracker.
  *
@@ -29,6 +29,8 @@ import com.herman.habits.utils.*
 import com.herman.habits.widgets.*
 import java.io.*
 
+import com.facebook.ads.AudienceNetworkAds
+
 /**
  * The Android application for 7-Habit Tracker.
  */
@@ -41,6 +43,8 @@ class HabitsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // Initialize the Audience Network SDK
+        AudienceNetworkAds.initialize(this);
         context = this
         HabitsApplication.component = DaggerHabitsApplicationComponent
                 .builder()
