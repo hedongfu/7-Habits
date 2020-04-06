@@ -1,4 +1,4 @@
-Copyright (C) 2018 He Dongfu <hedongfu@gmail.com>
+Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
 
 7-Habit Tracker is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the

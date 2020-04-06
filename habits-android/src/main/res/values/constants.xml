@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+  ~ Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
   ~
   ~ This file is part of 7-Habit Tracker.
   ~
@@ -20,14 +20,15 @@
 <resources>
     <string name="helpURL">http://loophabits.org/faq.html</string>
     <string name="playStoreURL">market://details?id=com.herman.habits</string>
-    <string name="feedbackURL" formatted="false">mailto:hedongfu@gmail.com?subject=Feedback%20about%20Habits%20Habit%20Tracker</string>
-    <string name="bugReportURL" formatted="false">mailto:hedongfu@gmail.com?subject=Bug%20Report%20-%20Habits%20Habit%20Tracker</string>
+    <string name="feedbackURL" formatted="false">mailto:ringtone.sky@gmail.com?subject=Feedback%20about%20Habits%20Habit%20Tracker</string>
+    <string name="bugReportURL" formatted="false">mailto:ringtone.sky@gmail.com?subject=Bug%20Report%20-%20Habits%20Habit%20Tracker</string>
     <string name="privacyPolicyURL" formatted="false">http://loophabits.org/privacy</string>
     <string name="codeContributorsURL" formatted="false">https://github.com/iSoron/uhabits/graphs/contributors</string>
     <string name="sourceCodeURL">https://github.com/hedongfu/7-Habits</string>
     <string name="translateURL">http://translate.loophabits.org/</string>
-    <string name="bugReportTo">dev@loophabits.org</string>
+    <string name="bugReportTo">ringtone.sky@gmail.com</string>
     <string name="bugReportSubject">Bug Report - 7-Habit Tracker</string>
+    <string name="ringtoneMakerPlayStoreURL">market://details?id=com.herman.ringtone</string>
 
     <string-array name="snooze_interval_names">
         <item>@string/interval_15_minutes</item>

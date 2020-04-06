@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2018 Dongfu He <hedongfu@gmail.com>
+# Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
 # This file is part of 7-Habit Tracker.
 #
 # 7-Habit Tracker is free software: you can redistribute it and/or modify
