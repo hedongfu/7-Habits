@@ -25,6 +25,7 @@ import com.herman.habits.core.models.*;
 
 import java.util.*;
 
+
 import static com.herman.habits.core.models.HabitList.Order.*;
 
 /**
@@ -55,6 +56,7 @@ public class MemoryHabitList extends HabitList
         super(matcher);
         this.parent = parent;
         this.comparator = comparator;
+        this.order = parent.order;
         parent.getObservable().addListener(this::loadFromParent);
         loadFromParent();
     }
