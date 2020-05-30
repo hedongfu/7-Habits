@@ -44,7 +44,7 @@ class HabitsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         // Initialize the Audience Network SDK
-        AudienceNetworkAds.initialize(this);
+        AudienceNetworkAds.initialize(this)
         context = this
         HabitsApplication.component = DaggerHabitsApplicationComponent
                 .builder()

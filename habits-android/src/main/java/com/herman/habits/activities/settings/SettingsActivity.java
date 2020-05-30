@@ -19,14 +19,18 @@
 
 package com.herman.habits.activities.settings;
 
-import android.os.*;
+import android.os.Bundle;
 import android.widget.LinearLayout;
 
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSettings;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
-import com.herman.androidbase.activities.*;
-import com.herman.androidbase.utils.*;
+import com.herman.androidbase.activities.BaseActivity;
+import com.herman.androidbase.activities.BaseScreen;
+import com.herman.androidbase.utils.StyledResources;
 import com.herman.habits.R;
 
 /**
@@ -50,8 +54,32 @@ public class SettingsActivity extends BaseActivity
         // Add the ad view to your activity layout
         adContainer.addView(adView);
 
-        AdSettings.addTestDevice("fb250780-f9c2-4ebd-8c16-6b411975914c"); // Samsung A20
-        AdSettings.addTestDevice("61067d88-e853-4fbf-80b3-228e0c37acef"); // One Plus
+        AdSettings.addTestDevice("3659d362-0005-4c55-a3c8-3e7fa302a34e"); // Samsung A20
+        AdSettings.addTestDevice("59c0c46b-26fd-46f0-9051-494a6926b1db"); // One Plus
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onError(Ad ad, AdError adError) {
+                // Ad error callback
+                System.out.println("Herman_debug:onError, Error: " + adError.getErrorMessage());
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+                // Ad loaded callback
+                System.out.println("Herman_debug:onAdLoaded");
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+                // Ad clicked callback
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                // Ad impression logged callback
+            }
+        });
         // Request an ad
         adView.loadAd();
     }
