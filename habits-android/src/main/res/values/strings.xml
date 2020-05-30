@@ -249,4 +249,5 @@
     <!-- Ringtone Maker -->
     <string name="pref_promote_app">Promote APP</string>
     <string name="pref_ringtone_maker_title">Ringtone Maker</string>
+    <string name="pref_lite_gallery_title">Lite Gallery</string>
 </resources>

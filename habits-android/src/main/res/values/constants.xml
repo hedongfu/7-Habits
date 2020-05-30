@@ -29,6 +29,7 @@
     <string name="bugReportTo">ringtone.sky@gmail.com</string>
     <string name="bugReportSubject">Bug Report - 7-Habit Tracker</string>
     <string name="ringtoneMakerPlayStoreURL">market://details?id=com.herman.ringtone</string>
+    <string name="liteGalleryPlayStoreURL">market://details?id=com.herman.gallery</string>
 
     <string-array name="snooze_interval_names">
         <item>@string/interval_15_minutes</item>

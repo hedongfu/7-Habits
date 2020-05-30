@@ -207,4 +207,5 @@
     <!-- Ringtone Maker -->
     <string name="pref_promote_app">应用推荐</string>
     <string name="pref_ringtone_maker_title">铃声剪辑</string>
+    <string name="pref_lite_gallery_title">图库</string>
 </resources>
