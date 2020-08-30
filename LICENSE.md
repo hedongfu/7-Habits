@@ -1,4 +1,5 @@
-Copyright (C) 2018 Herman <ringtone.sky@gmail.com>
+Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
+Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
 
 7-Habit Tracker is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
